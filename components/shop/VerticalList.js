@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React, {memo} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {RecyclerListView, DataProvider} from 'recyclerlistview';
 
-import {LayoutUtil, ViewTypes} from '../../utils/LayoutUtility';
+import {LayoutUtil, ViewTypes} from '../../utils/LayoutUtility1';
 
-import ShopCard from '../shop/ShopCard';
+import ShopCard from './ShopCard';
 
 function VerticalList(props) {
-  const {data} = props;
+  const {data, index} = props;
 
   let dataProvider = new DataProvider((r1, r2) => {
     return r1 !== r2;
@@ -16,30 +16,20 @@ function VerticalList(props) {
 
   let layoutProvider = LayoutUtil.getLayoutProvider(dataProvider);
   const rowRenderer = (type, data) => {
-    const {
-      photos,
-      desc,
-      name,
-      type: type1,
-      rating,
-      address,
-      city,
-      cheapestPrice,
-      _id: id,
-    } = data;
+    const {name, rating, address, cheapestPrice, _id, desc, photos} = data;
 
     switch (type) {
-      case ViewTypes.SHOP_CARD:
+      case ViewTypes.SUB_ITEM:
         return (
           <ShopCard
+            index={index}
             uri={photos[0]}
             title={name}
-            desc={desc}
-            address={address}
+            shopId={_id}
             rating={rating}
-            city={city}
-            rate={cheapestPrice}
-            shopId={id}
+            price={cheapestPrice}
+            address={address}
+            desc={desc}
           />
         );
 
@@ -50,25 +40,25 @@ function VerticalList(props) {
 
   return (
     <View style={styles.container}>
-      {data && (
-        <RecyclerListView
-          layoutProvider={layoutProvider}
-          dataProvider={dataProvider}
-          rowRenderer={rowRenderer}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <RecyclerListView
+        layoutProvider={layoutProvider}
+        dataProvider={dataProvider}
+        rowRenderer={rowRenderer}
+        isHorizontal={false}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-
-    marginHorizontal: 15,
-    marginTop: 7,
+    flexGrow: 1,
+    alignContent: 'flex-start',
+    justifyContent: 'flex-start',
+    paddingTop: 5,
+    paddingHorizontal: 10,
   },
 });
 
-export default React.memo(VerticalList);
+export default memo(VerticalList);

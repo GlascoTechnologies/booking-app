@@ -6,13 +6,20 @@ import {
 } from 'react-native-heroicons/outline';
 import {Text, View, StyleSheet, Image} from 'react-native';
 
-export default function Card(props) {
+export default function ServiceCard(props) {
   const {uri, title, style} = props;
   return (
     <View style={[styles.container, style]}>
-      <Image style={styles.logo} source={{uri: uri}} />
+      <Image
+        style={styles.logo}
+        source={{
+          uri: 'https://cdn.wccftech.com/wp-content/uploads/2020/02/49517766152_7ab6037ac1_k.jpg',
+        }}
+      />
 
-      <Text style={styles.paragraph}>{title}</Text>
+      <Text style={styles.paragraph} numberOfLines={1}>
+        {title}
+      </Text>
     </View>
   );
 }
@@ -20,22 +27,24 @@ export default function Card(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
 
-    backgroundColor: 'green',
+    backgroundColor: '',
   },
   paragraph: {
     marginTop: 3,
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'left',
     fontWeight: 'bold',
     color: 'black',
+    maxWidth: 120,
+    paddingLeft: 2,
   },
   logo: {
     height: '75%',
     borderRadius: 5,
-    width: '90%',
+    width: '100%',
 
     resizeMode: 'cover',
   },

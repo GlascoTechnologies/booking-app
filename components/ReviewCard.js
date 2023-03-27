@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     height: 'auto',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    elevation: 2,
+    elevation: 3,
     backgroundColor: 'white',
     marginTop: 10,
     borderRadius: 5,
@@ -57,13 +57,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight: 'bold',
     color: '#00CCBB',
-  },
-  logo: {
-    height: '70%',
-    width: '100%',
-    resizeMode: 'cover',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
   },
 });
 

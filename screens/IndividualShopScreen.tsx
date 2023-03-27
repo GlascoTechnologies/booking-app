@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {
   View,
   Text,
@@ -22,8 +22,9 @@ import IndividualShopCrew from '../components/IndividualShopCrew';
 import useFetch from '../utils/useFetch';
 import axios from 'axios';
 import ReviewCard from '../components/ReviewCard';
+import FlashList from '@shopify/flash-list/dist/FlashList';
 const IndividualShopScreen = ({route}) => {
-  const shopId = React.useMemo(() => route?.params?.id, []);
+  const shopId = route?.params?.id;
 
   const {data, loading} = useFetch(
     `https://booking-dynamic-test.onrender.com/api/hotels/find/${shopId}`,
@@ -48,7 +49,12 @@ const IndividualShopScreen = ({route}) => {
       <ActivityIndicator size="large" />
     </View>
   ) : (
-    <ScrollView className="bg-white">
+    <ScrollView
+      className="bg-white"
+      scrollEventThrottle={16}
+      shouldRasterizeIOS={true}
+      renderToHardwareTextureAndroid={true}
+      removeClippedSubviews>
       <View className="relative ">
         <ImageSlider
           data={[
@@ -89,9 +95,11 @@ const IndividualShopScreen = ({route}) => {
         </View>
 
         <View className="flex-row space-x-1 items-center">
-          <View className="bg-green-500 px-5 space-x-1 py-1 flex items-center justify-center flex-row rounded-md w-14 ml-4  mr-1">
+          <View className="bg-green-500 px-5 space-x-1 py-1 flex items-center justify-center flex-row rounded-md w-16 ml-4  mr-1">
             <StarIcon color="white" size={20} />
-            <Text className="text-white font-bold">{data?.rating}</Text>
+            <Text className="text-white font-bold">
+              {data?.rating?.toFixed(1)}
+            </Text>
           </View>
           <Text className="text-[#00ccbb]">
             See all {data?.numReviews} reviews
@@ -148,17 +156,36 @@ const IndividualShopScreen = ({route}) => {
 
       <IndividualShopServices />
 
-      <IndividualShopServices />
       <IndividualShopCrew />
 
-      <View className="px-5 pt-4 pb-5">
-        <Text className="text-black text-2xl font-bold">Customer Reviews</Text>
-        {data?.reviews?.map((item, i) => {
-          return <ReviewCard key={i} item={item} />;
-        })}
+      <View className="px-4 pt-4 h-full">
+        <Text className="text-black text-2xl font-bold  pb-1">
+          Customer Reviews
+        </Text>
+        <View style={{minHeight: 50}}>
+          {data?.reviews?.length > 0 ? (
+            <FlashList
+              data={data?.reviews}
+              keyExtractor={(item, i) => i.toString()}
+              renderItem={({item}) => {
+                return <ReviewCard item={item} />;
+              }}
+              contentContainerStyle={{
+                paddingHorizontal: 1,
+                paddingBottom: 20,
+              }}
+              estimatedItemSize={200}
+              shouldRasterizeIOS={true}
+              renderToHardwareTextureAndroid={true}
+              removeClippedSubviews
+            />
+          ) : (
+            <Text className="text-black  px-1 font-bold">No reviews</Text>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
 };
 
-export default React.memo(IndividualShopScreen);
+export default memo(IndividualShopScreen);

@@ -11,7 +11,7 @@ import {FlatList} from 'react-native';
 const SearchScreen = () => {
   const navigation = useNavigation();
   const {
-    params: {colonies},
+    params: {colonies, city},
   } = useRoute();
 
   const renderItem = ({item}: String) => {
@@ -19,7 +19,9 @@ const SearchScreen = () => {
       <>
         <TouchableOpacity
           style={{elevation: 6}}
-          onPress={() => navigation.navigate('Shop', {selectedColony: item})}
+          onPress={() =>
+            navigation.navigate('Shop', {selectedColony: item, city: city})
+          }
           className={`bg-white px-3 py-4 m-1 flex items-center justify-center   rounded-lg`}>
           <Text className="text-black font-semibold">{item}</Text>
         </TouchableOpacity>

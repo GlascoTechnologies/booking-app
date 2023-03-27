@@ -1,40 +1,49 @@
 import React from 'react';
-import {
-  ArrowRightCircleIcon,
-  MapPinIcon,
-  StarIcon,
-} from 'react-native-heroicons/outline';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import {BuildingStorefrontIcon} from 'react-native-heroicons/outline';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Card(props) {
-  const {uri, title, style} = props;
-  return (
-    <View style={[styles.container, style]}>
-      <Image style={styles.logo} source={{uri: uri}} />
+  const {uri, title, style, index, count} = props;
 
-      <Text style={styles.paragraph}>{title}</Text>
-    </View>
+  const navigation = useNavigation();
+  const handleScreen = () => {
+    index == 2 && navigation.navigate('IndividualShop', {id: count});
+    index == 3 && navigation.navigate('Shop', {city: title});
+  };
+
+  return (
+    <TouchableOpacity style={[styles.container, style]} onPress={handleScreen}>
+      <Image style={[styles.logo]} source={{uri: uri}} />
+
+      <Text className="text-black text-[14px] font-semibold ml-3 my-1">
+        {title}
+      </Text>
+      <View className="flex-row items-center space-x-1 ml-2">
+        <BuildingStorefrontIcon size={20} color="#00CCBB" />
+        <Text className=" text-xs text-gray-500 font-semibold">
+          {index == 3 ? `${count} shops` : '1.5 km away'}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    elevation: 5,
+    elevation: 2,
+    borderRadius: 5,
     backgroundColor: 'white',
   },
-  paragraph: {
-    marginTop: 3,
-    fontSize: 14,
-    textAlign: 'left',
-    fontWeight: 'bold',
-    color: 'black',
-  },
+
   logo: {
     height: '70%',
     width: '100%',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
     resizeMode: 'cover',
   },
 });

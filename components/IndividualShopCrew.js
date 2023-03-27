@@ -1,6 +1,7 @@
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
+import FlashList from '@shopify/flash-list/dist/FlashList';
 const IndividualShopCrew = () => {
   function FastImageView(props) {
     const {uri, style} = props;
@@ -18,91 +19,64 @@ const IndividualShopCrew = () => {
   }
 
   const MemoizedFastImageView = FastImageView;
+
+  const data = [
+    {
+      title: 'Hair Cut',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Shaving',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Bleaching',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Nailing',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Curling',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+  ];
+  const renderItem = ({item}) => {
+    return (
+      <View className="h-20 w-20 px-1 py-1">
+        <MemoizedFastImageView
+          uri={
+            'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
+          }
+          className="h-full w-full rounded-full "
+        />
+      </View>
+    );
+  };
+
   return (
     <View className="pt-2">
-      <Text className="text-black font-bold text-2xl px-3.5">Shop Crew</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="space-x-2"
+      <Text className="text-black font-bold text-2xl px-4">Shop Crew</Text>
+      <FlashList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item, i) => i.toString()}
         contentContainerStyle={{
           paddingHorizontal: 15,
-          paddingVertical: 10,
-          height: 110,
-        }}>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-        <View className="h-20 w-20 ">
-          <MemoizedFastImageView
-            uri={
-              'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-            }
-            className="h-full w-full rounded-full"
-          />
-
-          <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloons
-          </Text>
-        </View>
-      </ScrollView>
+          paddingTop: 5,
+        }}
+        estimatedItemSize={200}
+        horizontal={true}
+        shouldRasterizeIOS={true}
+        renderToHardwareTextureAndroid={true}
+        removeClippedSubviews
+      />
     </View>
   );
 };

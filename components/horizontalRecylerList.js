@@ -5,6 +5,7 @@ import {RecyclerListView, DataProvider} from 'recyclerlistview';
 import Card from './MainCard';
 import {LayoutUtil, ViewTypes} from '../utils/LayoutUtility';
 import {ArrowRightIcon} from 'react-native-heroicons/outline';
+import ServiceCard from './ServiceCard';
 
 export default function HorizontalRecylerList(props) {
   const allRowHeaders = useMemo(
@@ -27,19 +28,46 @@ export default function HorizontalRecylerList(props) {
     ],
     [],
   );
-  const {data} = props;
+  const {data, index} = props;
 
-  let dataProvider = new DataProvider((r1, r2) => {
-    return r1 !== r2;
-  });
-  dataProvider = dataProvider.cloneWithRows(data);
+  const dataProvider = useMemo(
+    () =>
+      new DataProvider((r1, r2) => {
+        return r1 !== r2;
+      }).cloneWithRows(data),
+    [],
+  );
 
-  let layoutProvider = LayoutUtil.getLayoutProvider(dataProvider);
+  const layoutProvider = useMemo(
+    () => LayoutUtil.getLayoutProvider(dataProvider),
+    [dataProvider],
+  );
   const rowRenderer = (type, data) => {
-    const {uri, title} = data;
+    const {uri, name, title, count, _id} = data;
+
     switch (type) {
       case ViewTypes.SUB_ITEM:
-        return <Card uri={uri} title={title} style={{marginHorizontal: 5}} />;
+        return (
+          <Card
+            index={index}
+            uri={
+              uri ||
+              'https://cdn.wccftech.com/wp-content/uploads/2020/02/49517766152_7ab6037ac1_k.jpg'
+            }
+            title={name}
+            count={count || _id}
+            style={{marginHorizontal: 5}}
+          />
+        );
+      case ViewTypes.SUB_ITEM1:
+        return (
+          <ServiceCard
+            index={index}
+            uri={uri}
+            title={title}
+            style={{marginHorizontal: 5}}
+          />
+        );
       default:
         return null;
     }
@@ -50,9 +78,9 @@ export default function HorizontalRecylerList(props) {
       <View className={`flex-row px-3 py-1.5`}>
         <View className=" flex-1  ">
           <Text className="text-black text-xl font-bold">
-            {allRowHeaders[1]?.title}
+            {allRowHeaders[index]?.title}
           </Text>
-          <Text className="text-gray-500">{allRowHeaders[1]?.desc}</Text>
+          <Text className="text-gray-500">{allRowHeaders[index]?.desc}</Text>
         </View>
         <ArrowRightIcon size={22} color="#00ccbb" />
       </View>

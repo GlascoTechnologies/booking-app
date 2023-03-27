@@ -1,24 +1,23 @@
-import * as React from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
   Text,
-  FlatList,
 } from 'react-native';
 
 import {RecyclerListView, DataProvider} from 'recyclerlistview';
 
 import {data} from '../utils/ShopsData';
 
-import {LayoutUtil} from '../utils/LayoutUtility';
+import {LayoutUtil, ViewTypes} from '../utils/LayoutUtility1';
 import useFetch from '../utils/useFetch';
 import axios from 'axios';
 import VerticalList from '../components/shop/VerticalList';
 import {ImageSlider} from 'react-native-image-slider-banner';
-import {shopCard} from '../utils/Data';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {innderData} from '../utils/Data';
+import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   AdjustmentsVerticalIcon,
@@ -31,12 +30,12 @@ function ShopScreen({route}) {
 
   const [loaded, setLoaded] = React.useState(false);
 
-  const [colonyWiseShops, setColonyWiseShops] = React.useState([]);
-  const [colonies, setColonies] = React.useState([]);
+  const [colonyWiseShops, setColonyWiseShops] = useState([]);
+  const [colonies, setColonies] = useState([]);
 
   const navigation = useNavigation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getAllColonies = async () => {
       try {
         const colonies = await axios.post(
@@ -65,7 +64,7 @@ function ShopScreen({route}) {
 
   const realData = selectedColony === undefined ? fata : colonyWiseShops;
   let filterShops = realData?.map(data => {
-    return {...data, type: shopCard};
+    return {...data, type: innderData};
   });
 
   let dataProvider = new DataProvider((r1, r2) => {
@@ -76,10 +75,10 @@ function ShopScreen({route}) {
 
   let layoutProvider = LayoutUtil?.getLayoutProvider(
     dataProvider,
-    selectedColony === undefined ? fata?.length : colonyWiseShops?.length,
+    realData?.length,
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getColonyWiseShops = async colony => {
       try {
         setLoaded(true);
@@ -103,9 +102,9 @@ function ShopScreen({route}) {
     getColonyWiseShops(selectedColony);
   }, [selectedColony]);
 
-  const rowRenderer = (type, data, i: Number) => {
-    switch (data?.type) {
-      case 'item':
+  const rowRenderer = type => {
+    switch (type) {
+      case ViewTypes.GRID:
         return (
           <View className="">
             <ImageSlider
@@ -134,8 +133,9 @@ function ShopScreen({route}) {
             />
           </View>
         );
-      case 'shopCards':
-        return realData.length > 0 && <VerticalList data={filterShops} />;
+
+      case ViewTypes.FULL_GRID:
+        return realData?.length > 0 && <VerticalList data={filterShops} />;
 
       default:
         return null;
@@ -154,7 +154,7 @@ function ShopScreen({route}) {
         <View className="flex-row items-center space-x-2 pb-3.5 px-3.5  pt-4  mx-1  ">
           <TouchableOpacity
             className=" flex-row flex-1 space-x-4 h-10 bg-white items-center rounded-full border border-[#00ccbb]"
-            onPress={() => navigation.navigate('Search', {colonies})}>
+            onPress={() => navigation.navigate('Search', {colonies, city})}>
             <Text className="ml-2">
               <MagnifyingGlassCircleIcon color="#00CCBB" size={25} />
             </Text>
@@ -169,23 +169,6 @@ function ShopScreen({route}) {
         </View>
       )}
 
-      {/* <Text className="text-black px-4 pt-3 font-semibold text-md">
-        select your colony
-      </Text>
-
-      <View style={{height: 60}}>
-        <FlatList
-          data={colonies}
-          keyExtractor={(item, i) => i.toString()}
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderItem}
-          horizontal
-          contentContainerStyle={{
-            paddingHorizontal: 10,
-            paddingVertical: 5,
-          }}
-        />
-      </View> */}
       {loading ? (
         <View className="flex-1 items-center justify-center ">
           <ActivityIndicator size="large" />
@@ -208,4 +191,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(ShopScreen);
+export default memo(ShopScreen);

@@ -18,7 +18,7 @@ function FastImageView(props) {
         cache: FastImage.cacheControl.immutable,
       }}
       resizeMode={FastImage.resizeMode.cover}
-      className="h-44 w-full "
+      className="h-44 "
       style={{
         borderTopLeftRadius: 15,
         borderTopRightRadius: 8,
@@ -29,7 +29,7 @@ function FastImageView(props) {
 
 const MemoizedFastImageView = React.memo(FastImageView);
 function ShopCard(props) {
-  const {title, desc, rating, address, city, rate, shopId, uri} = props;
+  const {title, desc, rating, address, city, price, shopId, uri} = props;
 
   const navigation = useNavigation();
 
@@ -39,14 +39,8 @@ function ShopCard(props) {
     });
   };
   const memoizedFastImage = React.useMemo(() => {
-    return (
-      <MemoizedFastImageView
-        uri={
-          'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
-        }
-      />
-    );
-  }, [uri]);
+    return <MemoizedFastImageView uri={uri} />;
+  }, []);
 
   return (
     <>
@@ -69,7 +63,7 @@ function ShopCard(props) {
         </View>
         <View className="bg-green-500 absolute px-1.5 py-0.5 space-x-1  flex items-center flex-row rounded-md ">
           <StarIcon color="white" size={15} />
-          <Text className="text-white font-bold">{rating}</Text>
+          <Text className="text-white font-bold">{Math.round(rating)}</Text>
         </View>
 
         <View className="flex-row items-center">
@@ -79,7 +73,7 @@ function ShopCard(props) {
               {address?.replace(`,${city}`, '')}
             </Text>
           </View>
-          <Text className="text-black font-bold mr-2">Basic Rs.{rate}</Text>
+          <Text className="text-black font-bold mr-2">Basic Rs.{price}</Text>
         </View>
       </Pressable>
     </>

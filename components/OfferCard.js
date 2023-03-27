@@ -19,7 +19,7 @@ function FastImageView(props) {
 
 const MemoizedFastImageView = FastImageView;
 
-function ServiceCard(props) {
+function OfferCard(props) {
   const {uri, title, style} = props;
 
   return (
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ServiceCard;
+export default OfferCard;

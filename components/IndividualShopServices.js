@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
+import {FlashList} from '@shopify/flash-list';
 const IndividualShopServices = () => {
   function FastImageView(props) {
     const {uri, style} = props;
@@ -23,11 +24,58 @@ const IndividualShopServices = () => {
     );
   }
 
+  const data = [
+    {
+      title: 'Hair Cut',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Shaving',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Bleaching',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Nailing',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+    {
+      title: 'Curling',
+      image:
+        'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
+    },
+  ];
+
   const MemoizedFastImageView = FastImageView;
+
+  const renderItem = () => {
+    return (
+      <TouchableOpacity
+        style={[styles.container, {marginHorizontal: 5, width: 150}]}>
+        <MemoizedFastImageView
+          uri={
+            'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp'
+          }
+          style={styles.logo}
+        />
+
+        <Text style={styles.paragraph} numberOfLines={1}>
+          Hair Saloons
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View className="pt-2">
-      <Text className="text-black font-bold text-2xl px-3.5">Services</Text>
-      <ScrollView
+      <Text className="text-black font-bold text-2xl px-4">Services</Text>
+      {/* <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
@@ -45,7 +93,7 @@ const IndividualShopServices = () => {
           />
 
           <Text style={styles.paragraph} numberOfLines={1}>
-            Hair Saloonsssssssssssssssssssssssssssssss
+            Hair Saloons
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -136,14 +184,29 @@ const IndividualShopServices = () => {
 
           <Text style={styles.paragraph}>Hair Saloon</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </ScrollView> */}
+      <View style={{height: 120}}>
+        <FlashList
+          data={data}
+          keyExtractor={(item, i) => i.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={{
+            paddingHorizontal: 15,
+          }}
+          estimatedItemSize={200}
+          horizontal={true}
+          shouldRasterizeIOS={true}
+          renderToHardwareTextureAndroid={true}
+          removeClippedSubviews
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 0,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 1,
