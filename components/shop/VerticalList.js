@@ -8,7 +8,7 @@ import ShopCard from './ShopCard';
 
 function VerticalList(props) {
   const {data, index} = props;
-  console.log(data, 'data');
+
   let dataProvider = new DataProvider((r1, r2) => {
     return r1 !== r2;
   });

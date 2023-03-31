@@ -11,7 +11,6 @@ export class LayoutUtil {
     return Math.round(Dimensions.get('window').width * 1000) / 1000;
   }
   static getLayoutProvider(dataProvider, index1) {
-    console.log(index1);
     return new LayoutProvider(
       index => {
         let type = dataProvider.getDataForIndex(index).type;

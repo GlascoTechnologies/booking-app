@@ -88,7 +88,7 @@ function ShopScreen({route}) {
           },
         );
         setLoaded(false);
-        console.log(shops?.data);
+
         setColonyWiseShops(shops?.data);
       } catch (err) {
         console.log(err);

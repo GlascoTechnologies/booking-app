@@ -20,40 +20,22 @@ export class LayoutUtil {
           return ViewTypes.GRID;
         } else if (type == subItem) {
           return ViewTypes.FULL;
-        } else if (type == SERVICES) {
-          return ViewTypes.HALF_FULL;
-        } else if (type == innderData) {
-          return ViewTypes.SUB_ITEM;
-        } else if (type == innderData1) {
-          return ViewTypes.SUB_ITEM1;
         }
       },
       (type, dim) => {
         const width = LayoutUtil.getWindowWidth();
-        let layoutHeight = 300;
-        const innerCardHeight = layoutHeight - 10;
-        const innerCardWidth = width;
+        let layoutHeight = 1100;
+
         switch (type) {
           case ViewTypes.GRID:
             dim.width = width;
-            dim.height = layoutHeight / 2;
+            dim.height = 150;
             break;
           case ViewTypes.FULL:
             dim.width = width;
-            dim.height = layoutHeight - 60;
+            dim.height = layoutHeight;
             break;
-          case ViewTypes.HALF_FULL:
-            dim.width = width;
-            dim.height = layoutHeight - 150;
-            break;
-          case ViewTypes.SUB_ITEM:
-            dim.width = innerCardWidth - 140;
-            dim.height = innerCardHeight / 1.7;
-            break;
-          case ViewTypes.SUB_ITEM1:
-            dim.width = innerCardWidth - 240;
-            dim.height = innerCardHeight / 1.6;
-            break;
+
           default:
             dim.width = 0;
             dim.height = 0;

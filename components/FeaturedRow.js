@@ -240,15 +240,13 @@ function HomeScreen() {
           <ActivityIndicator size="large" />
         </View>
       ) : (
-        <View style={{height: 1000}}>
-          <RecyclerListView
-            contentContainerStyle={{}}
-            layoutProvider={layoutProvider}
-            dataProvider={dataProvider}
-            rowRenderer={rowRenderer}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
+        <RecyclerListView
+          contentContainerStyle={{}}
+          layoutProvider={layoutProvider}
+          dataProvider={dataProvider}
+          rowRenderer={rowRenderer}
+          showsVerticalScrollIndicator={false}
+        />
       )}
     </SafeAreaView>
   );
