@@ -1,4 +1,5 @@
 import React, {useMemo, useState, useEffect, memo} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import {
   View,
@@ -38,9 +39,12 @@ const MemoizedImageSlider = memo(({images}) => (
     }}
   />
 ));
-const cities = ['shadnagar', 'kothur', 'thimmapur', 'shamshabad'];
 
 function HomeScreen() {
+  const cities = useMemo(
+    () => ['shadnagar', 'kothur', 'thimmapur', 'shamshabad'],
+    [],
+  );
   const [realData, setRealData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -49,7 +53,7 @@ function HomeScreen() {
     try {
       setLoading(true);
       const {data: fata} = await axios.post(
-        'http://192.168.0.104:8800/api/homescreen',
+        'https://booking-dynamic-test.onrender.com/api/homescreen',
         {
           city: 'shadnagar',
         },
@@ -62,12 +66,17 @@ function HomeScreen() {
   };
 
   useEffect(() => {
+    SplashScreen.hide();
     fetchData();
   }, []);
 
-  let bestShops = realData[0]?.shops?.map(data => {
-    return {...data, type: innderData};
-  });
+  let bestShops = useMemo(
+    () =>
+      realData[0]?.shops?.map(data => {
+        return {...data, type: innderData};
+      }),
+    [realData],
+  );
   const shopsCount = [
     {
       _id: '1',

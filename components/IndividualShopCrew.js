@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {memo, useMemo} from 'react';
 import FastImage from 'react-native-fast-image';
 import FlashList from '@shopify/flash-list/dist/FlashList';
 const IndividualShopCrew = () => {
@@ -18,7 +18,7 @@ const IndividualShopCrew = () => {
     );
   }
 
-  const MemoizedFastImageView = FastImageView;
+  const MemoizedFastImageView = useMemo(() => FastImageView, []);
 
   const data = [
     {
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IndividualShopCrew;
+export default memo(IndividualShopCrew);

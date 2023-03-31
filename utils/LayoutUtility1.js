@@ -11,6 +11,7 @@ export class LayoutUtil {
     return Math.round(Dimensions.get('window').width * 1000) / 1000;
   }
   static getLayoutProvider(dataProvider, index1) {
+    console.log(index1);
     return new LayoutProvider(
       index => {
         let type = dataProvider.getDataForIndex(index).type;
@@ -33,7 +34,7 @@ export class LayoutUtil {
             break;
           case ViewTypes.FULL_GRID:
             dim.width = width;
-            dim.height = (layoutHeight / 1.33) * index1;
+            dim.height = (layoutHeight * index1) / 1.15;
             break;
 
           case ViewTypes.SUB_ITEM:

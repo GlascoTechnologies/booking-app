@@ -29,19 +29,11 @@ export default function HorizontalRecylerList(props) {
     [],
   );
   const {data, index} = props;
+  const dataProvider = new DataProvider((r1, r2) => {
+    return r1 !== r2;
+  }).cloneWithRows(data);
+  const layoutProvider = LayoutUtil.getLayoutProvider(dataProvider);
 
-  const dataProvider = useMemo(
-    () =>
-      new DataProvider((r1, r2) => {
-        return r1 !== r2;
-      }).cloneWithRows(data),
-    [],
-  );
-
-  const layoutProvider = useMemo(
-    () => LayoutUtil.getLayoutProvider(dataProvider),
-    [dataProvider],
-  );
   const rowRenderer = (type, data) => {
     const {uri, name, title, count, _id} = data;
 

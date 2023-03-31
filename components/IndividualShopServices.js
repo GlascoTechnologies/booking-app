@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {memo, useMemo} from 'react';
 import FastImage from 'react-native-fast-image';
 import {FlashList} from '@shopify/flash-list';
 const IndividualShopServices = () => {
@@ -51,8 +45,7 @@ const IndividualShopServices = () => {
         'https://res.cloudinary.com/dqupmzcrb/image/upload/v1679068838/pexels-maria-orlova-4969866_1_ippspp.webp',
     },
   ];
-
-  const MemoizedFastImageView = FastImageView;
+  const MemoizedFastImageView = useMemo(() => FastImageView, []);
 
   const renderItem = () => {
     return (
@@ -234,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IndividualShopServices;
+export default memo(IndividualShopServices);

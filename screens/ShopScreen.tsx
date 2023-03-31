@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useMemo} from 'react';
 import {
   View,
   StyleSheet,
@@ -28,38 +28,19 @@ import {
 function ShopScreen({route}) {
   const {city, selectedColony} = route.params;
 
-  const [loaded, setLoaded] = React.useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const [colonyWiseShops, setColonyWiseShops] = useState([]);
   const [colonies, setColonies] = useState([]);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const getAllColonies = async () => {
-      try {
-        const colonies = await axios.post(
-          'https://booking-dynamic-test.onrender.com/api/hotels/allColonies',
-          {
-            destination: city,
-          },
-        );
-
-        setColonies(colonies.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getAllColonies();
-  }, []);
-
   const {
     data: fata,
     loading,
     error,
   } = useFetch(
-    `https://booking-dynamic-test.onrender.com/api/hotels?type=saloon&city=${city}&min=0&max=999`,
+    `https://booking-dynamic-test.onrender.com/api/hotels?city=${city}&min=0&max=999`,
   );
 
   const realData = selectedColony === undefined ? fata : colonyWiseShops;
@@ -78,6 +59,24 @@ function ShopScreen({route}) {
     realData?.length,
   );
 
+  const getAllColonies = async () => {
+    try {
+      const response = await axios.post(
+        'https://booking-dynamic-test.onrender.com/api/hotels/allColonies',
+        {
+          destination: city,
+        },
+      );
+      setColonies(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getAllColonies();
+  }, []);
+
   useEffect(() => {
     const getColonyWiseShops = async colony => {
       try {
@@ -89,8 +88,8 @@ function ShopScreen({route}) {
           },
         );
         setLoaded(false);
-
-        setColonyWiseShops(shops.data);
+        console.log(shops?.data);
+        setColonyWiseShops(shops?.data);
       } catch (err) {
         console.log(err);
       }
@@ -135,7 +134,7 @@ function ShopScreen({route}) {
         );
 
       case ViewTypes.FULL_GRID:
-        return realData?.length > 0 && <VerticalList data={filterShops} />;
+        return filterShops?.length > 0 && <VerticalList data={filterShops} />;
 
       default:
         return null;

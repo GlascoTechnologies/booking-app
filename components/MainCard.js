@@ -1,6 +1,6 @@
 import React from 'react';
 import {BuildingStorefrontIcon} from 'react-native-heroicons/outline';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, Image, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Card(props) {
@@ -13,7 +13,7 @@ export default function Card(props) {
   };
 
   return (
-    <TouchableOpacity style={[styles.container, style]} onPress={handleScreen}>
+    <Pressable style={[styles.container, style]} onPress={handleScreen}>
       <Image style={[styles.logo]} source={{uri: uri}} />
 
       <Text className="text-black text-[14px] font-semibold ml-3 my-1">
@@ -25,7 +25,7 @@ export default function Card(props) {
           {index == 3 ? `${count} shops` : '1.5 km away'}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

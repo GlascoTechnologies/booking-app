@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import * as React from 'react';
+import React, {memo} from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ChatBubbleBottomCenterIcon} from 'react-native-heroicons/outline';
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     height: 'auto',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    elevation: 3,
+    elevation: 1,
     backgroundColor: 'white',
     marginTop: 10,
     borderRadius: 5,
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReviewCard;
+export default memo(ReviewCard);

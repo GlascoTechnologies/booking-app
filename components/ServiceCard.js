@@ -13,7 +13,7 @@ export default function ServiceCard(props) {
       <Image
         style={styles.logo}
         source={{
-          uri: 'https://cdn.wccftech.com/wp-content/uploads/2020/02/49517766152_7ab6037ac1_k.jpg',
+          uri: 'https://res.cloudinary.com/duk9xkcp5/image/upload/v1679760875/Hair_cutting_in_salon_illustration_vector_concept_generated_1_ywx6vs_1_c4hpsc.webp',
         }}
       />
 
